@@ -3,6 +3,7 @@
     $('#mc-form').ajaxChimp({
         url: 'https://roc-nijmegen.us4.list-manage.com/subscribe/post?u=e8f65e4efc65dd48bc3b38ced&amp;id=e7a79f6070'
     });
+
 /*
     $( "#whitehomepage" ).click(function() {
     event.preventDefault();

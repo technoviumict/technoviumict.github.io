@@ -103,12 +103,16 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
                     ) {
                         msg = $.ajaxChimp.translations[settings.language][$.ajaxChimp.responses[msg]];
                     }
-                    window.location.href = "/thankyou.html";
-                    //label.html(msg);
+                    //window.location.href = "/thankyou.html";
+                    label.html(msg);
+                    console.log(msg);
 
-                    //label.show(2000);
+                    label.show(2000);
                     if (settings.callback) {
                         settings.callback(resp);
+                    }
+                    if(msg == 'We have sent you a confirmation email'){
+                        window.location.href = "/thankyou.html";
                     }
                 }
 
