@@ -58,7 +58,7 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
 
             var url = settings.url.replace('/post?', '/post-json?').concat('&c=?');
 
-            form.attr('novalidate', 'true');
+            form.attr('novalidate', 'false');
             email.attr('name', 'EMAIL');
 
             form.submit(function () {
@@ -66,6 +66,7 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
                 function successCallback(resp) {
                     if (resp.result === 'success') {
                         msg = 'We have sent you a confirmation email';
+                        window.location.href = "/thankyou.html";
                         label.removeClass('error').addClass('valid');
                         email.removeClass('error').addClass('valid');
                     } else {
@@ -108,12 +109,13 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
                     console.log(msg);
 
                     label.show(2000);
+                    console.log(settings.callback);
                     if (settings.callback) {
                         settings.callback(resp);
                     }
-                    if(msg == 'We have sent you a confirmation email'){
+                    /*if(msg == 'We have sent you a confirmation email'){
                         window.location.href = "/thankyou.html";
-                    }
+                    }*/
                 }
 
                 var data = {};
@@ -121,6 +123,8 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
                 $.each(dataArray, function (index, item) {
                     data[item.name] = item.value;
                 });
+                console.log(url);
+                console.log(data);
 
                 $.ajax({
                     url: url,
