@@ -31,7 +31,7 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
     $.ajaxChimp = {
         responses: {
             'We have sent you a confirmation email'                                             : 0,
-            'Please enter a value'                                                              : 1,
+            'Vul alle verplichte velden'                                                              : 1,
             'An email address must contain a single @'                                          : 2,
             'The domain portion of the email address is invalid (the portion after the @: )'    : 3,
             'The username portion of the email address is invalid (the portion before the @: )' : 4,
@@ -50,6 +50,13 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
             var form = $(elem);
             var email = form.find('input[type=email]');
             var label = form.find('label[for=' + email.attr('id') + ']');
+            var fname = form.find('input[id=first_name]');
+            var fname_label = form.find('label[for=' + fname.attr('id') + ']');
+            var lname = form.find('input[id=last_name]');
+            var lname_label = form.find('label[for=' + lname.attr('id') + ']');
+            var phone = form.find('input[id=phone]');
+            var phone_label = form.find('label[for=' + phone.attr('id') + ']');
+            var submitting = form.find('button[id=lp-pom-button-23]');
 
             var settings = $.extend({
                 'url': form.attr('action'),
@@ -58,7 +65,7 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
 
             var url = settings.url.replace('/post?', '/post-json?').concat('&c=?');
 
-            form.attr('novalidate', 'false');
+            form.attr('novalidate', 'true');
             email.attr('name', 'EMAIL');
 
             form.submit(function () {
@@ -104,18 +111,46 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
                     ) {
                         msg = $.ajaxChimp.translations[settings.language][$.ajaxChimp.responses[msg]];
                     }
-                    //window.location.href = "/thankyou.html";
-                    label.html(msg);
-                    console.log(msg);
+                    if(msg == "Please enter a value"){
+                        msg = "Vul alle verplichte velden!"
+                    }
+                    $("#sign_up_errors").html(msg)
+                    $("#sign_up_errors").css("color", "#550A21");
 
-                    label.show(2000);
-                    console.log(settings.callback);
+                   // $("#lp-pom-button-23").disable()
+                    //$('#lp-pom-button-23').prop('disabled', true);
+                    //label.html(msg);
+                    submitting.html('Meld me aan!').show(2000);
+
+                    if(fname.val() == ''){
+                        fname_label.css("color", "#550A21");
+                        fname.css("border-color", "#550A21");
+                        fname.css("border-width", "#550A21");
+                    }
+                    if(lname.val() == ''){
+                        lname_label.css("color", "#550A21");
+                        lname.css("border-color", "#550A21");
+                        lname.css("border-width", "#550A21");
+                    }
+                    if(email.val() == ''){
+                        label.css("color", "#550A21");
+                        email.css("border-color", "#550A21");
+                        email.css("border-width", "#550A21");
+                    }
+                    if(phone.val() == ''){
+                        phone_label.css("color", "#550A21");
+                        phone.css("border-color", "#550A21");
+                        phone.css("border-width", "#550A21");
+                    }
+
+                    //if(fname.val() !== '' && lname.val() !== '' && email.val() !== '' && phone.val() !== ''){
+                    //    $('#lp-pom-button-23').prop('disabled', false);
+                    //}
+
+                    //console.log(settings.callback);
                     if (settings.callback) {
                         settings.callback(resp);
                     }
-                    /*if(msg == 'We have sent you a confirmation email'){
-                        window.location.href = "/thankyou.html";
-                    }*/
                 }
 
                 var data = {};
@@ -146,7 +181,7 @@ For e.g. 'http://blahblah.us1.list-manage.com/subscribe/post-json?u=5afsdhfuhdsi
                 ) {
                     submitMsg = $.ajaxChimp.translations[settings.language]['submit'];
                 }
-                label.html(submitMsg).show(2000);
+                submitting.html(submitMsg).show(2000);
 
                 return false;
             });
